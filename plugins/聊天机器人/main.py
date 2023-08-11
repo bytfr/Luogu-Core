@@ -3,7 +3,6 @@ import threading
 from luogu import Luogu, Log
 
 Luogu = Luogu()
-Luogu.plugin_information["Plugin Name"] = "聊天机器人"
 help_str = """------- 指令列表 -------
 
 {}

@@ -2,10 +2,13 @@
 
 ## config.json
 
-配置文件，只需要洛谷cookie就行，以下是个样例
+配置文件，以下是个样例
 
 ```json
 {
+  // pip 文件路径
+  "pip_path": "C:\\Users\\26785\\PycharmProjects\\Luogu Core\\venv\\Scripts\\pip.exe",
+  // 洛谷Cookie
   "cookie": {"__client_id": "不告诉你", "_uid": "728260"}
 }
 ```
@@ -16,13 +19,16 @@
 
 样例:
 
-```python
+```file
 main.py
 config.json
 luogu.py
 plugins/
 	样例插件/
     	    main.py
+            plugin_information.json
+            config.json (插件配置，需要再添加)
+            requirements.txt (插件需要的模块)
 ```
 
 
@@ -30,6 +36,8 @@ plugins/
 # Luogu Core 插件开发文档
 
 ## 插件模板
+
+main.py
 
 ```python
 # 导入基本模块
@@ -55,6 +63,33 @@ def init2():
 @Luogu.get_message
 def get_msg(message: dict):
    Log.info(message)
+```
+
+plugin_information.json
+
+```json
+{
+  "Luogu-Core Version": 1.0,
+  "Program_entry": "main", // 程序入口，填入开始程序的文件名，不要有后缀名!!!
+  "Plugin Name": "Luogu Core Plugin",
+  "Author": "bytfr",
+  "Version": "1.0.0",
+  "Author URL": "https://www.grmine.cn",
+  "Email": "grmine@qq.com"
+}
+```
+
+requirements.txt
+
+```text
+pymongo
+flask
+```
+
+config.json
+
+```json
+// 无统一格式，只要保证是json即可
 ```
 
 

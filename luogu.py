@@ -10,8 +10,7 @@ headers = {"User-Agent": "Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWeb
 
 class Luogu:
     def __init__(self):
-        self.plugin_information = {"Plugin Name": "Luogu Core Plugin", "Author": "bytfr", "Version": "1.0.0",
-                                   "Author URL": "https://www.grmine.cn", "Email": "grmine@qq.com"}
+        self.plugin_information = {}
         self.cookie = {}
         self.event_list = {"get_message": []}
         self.plugin_path = ""
