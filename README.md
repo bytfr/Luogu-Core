@@ -1076,4 +1076,66 @@ config.json
     }
     ```
     
+
+## class Log 里的函数
+
+**本类是日志类，建议使用本类输出控制台，格式更美观**
+
+- info()	发送一个"信息"到控制台
+
+  - ```python
+    参数:
+    - *args # 信息
     
+    Return None
+    
+    例子:
+    Log.info("Hello World!")
+    控制台:
+    2023-08-11 18:09:30 |  INFO   | Hello World!
+    ```
+
+- warning()	发送一个"警告"到控制台
+
+  - ```python
+    参数:
+    - *args # 信息
+    
+    Return None
+    
+    例子:
+    Log.warning("Warning")
+    控制台:
+    2023-08-11 18:10:51 | WARNING | Warning
+    ```
+
+- error()	发送一个"错误"到控制台
+
+  - ```python
+    参数:
+    - *args # 信息
+    
+    Return None
+    
+    例子:
+    Log.error("Error")
+    控制台:
+    2023-08-11 18:10:51 |  ERROR  | Error
+    ```
+
+- attention()	发送一个"注意"到控制台 
+
+  - ```python
+    参数:
+    - *args # 信息
+    
+    Return None
+    
+    例子:
+    Log.attention("Attention")
+    控制台:
+    2023-08-11 18:10:51 |ATTENTION| Attention
+    ```
+
+    
+
