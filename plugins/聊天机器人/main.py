@@ -1,6 +1,6 @@
 import threading
 
-from luogu import Luogu, Log
+from module.luogu import Luogu, Log
 
 Luogu = Luogu()
 help_str = """------- 指令列表 -------

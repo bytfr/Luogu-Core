@@ -51,6 +51,8 @@ class Plugins:
 
     def load(self):
         for i in os.listdir(self.path):
+            if i == "disabled":
+                continue
             try:
                 with open("./plugins/" + i + "/plugin_information.json", "r", encoding="utf-8") as f:
                     plugin_information = json.loads(f.read())
@@ -89,6 +91,7 @@ class Plugins:
         Log.info("插件加载完成")
 
     def get_message(self):
+        k = 1
         while 1:
             try:
                 unread_message_count = requests.get("https://www.luogu.com.cn/chat?_contentOnly=1", headers=headers,
@@ -97,15 +100,17 @@ class Plugins:
                 if len(list(unread_message_count)):
                     for i in unread_message_count:
                         sum_message = \
-                        requests.get("https://www.luogu.com.cn/api/chat/record?user={}".format(i), headers=headers,
-                                     cookies=config["cookie"]).json()["messages"]["result"]
+                            requests.get("https://www.luogu.com.cn/api/chat/record?user={}".format(i), headers=headers,
+                                         cookies=config["cookie"]).json()["messages"]["result"]
                         for j in range(1, unread_message_count[i] + 1):
                             for k in self.event_list["get_message"]:
                                 threading.Thread(target=k,
                                                  args=(sum_message[-(unread_message_count[i] + 1 - j)],)).start()
+                k = 1
             except Exception as e:
-                Log.warning("获取信息失败，稍后重试，失败原因:", e)
-            time.sleep(1)
+                k += 1
+                Log.warning("获取信息失败，{} 秒后重试，失败原因:".format(k), e)
+            time.sleep(k)
 
 
 def get_config():
@@ -115,9 +120,19 @@ def get_config():
         f.close()
 
 
-plugin = Plugins(os.getcwd()+"/plugins")
+def verify_cookie(cookie):
+    try:
+        return "currentUser" in requests.get("https://www.luogu.com.cn/user/{}?_contentOnly=1".format(cookie["_uid"]), headers=headers, cookies=cookie).json()
+    except:
+        return False
+
+
+plugin = Plugins(os.getcwd() + "/plugins")
 
 if __name__ == '__main__':
     get_config()
-    plugin.load()
-    threading.Thread(target=plugin.get_message).start()
+    if not verify_cookie(config["cookie"]):
+        Log.error("Cookie 验证失败，请更换Cookie")
+    else:
+        plugin.load()
+        threading.Thread(target=plugin.get_message).start()

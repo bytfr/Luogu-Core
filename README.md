@@ -22,13 +22,16 @@
 ```file
 main.py
 config.json
-luogu.py
+configs/ (存放插件配置文件)
 plugins/
 	样例插件/
     	    main.py
             plugin_information.json
             config.json (插件配置，需要再添加)
             requirements.txt (插件需要的模块)
+module/ (存放插件运行模块的地方)
+	Luogu/ (Luogu接口)
+		__init__.py
 ```
 
 
@@ -41,8 +44,7 @@ main.py
 
 ```python
 # 导入基本模块
-from luogu import Luogu, Log
-
+from module.luogu import Luogu, Log
 
 # 初始化
 Luogu = Luogu()
@@ -52,17 +54,19 @@ Luogu.plugin_information["Plugin Name"] = "Luogu Core Plugin"
 
 # 初始化函数(class Luogu 不可用)
 def init():
-    # 返回class Luogu(必要)
-    return Luogu
+  # 返回class Luogu(必要)
+  return Luogu
+
 
 # 初始化函数2(class Luogu 可用 非必要函数)
 def init2():
-    Log.info(Luogu.get_contest_real_name(55775))
-    
+  Log.info(Luogu.get_contest_real_name(55775))
+
+
 # 获取信息(需要时使用)
 @Luogu.get_message
 def get_msg(message: dict):
-   Log.info(message)
+  Log.info(message)
 ```
 
 plugin_information.json
@@ -585,10 +589,13 @@ config.json
 - Luogu.read_config()	读取插件配置文件
 
   - ```python
+    参数:
+    - file_name # 配置文件名
+    
     Return dict or list
     
     例子:
-    Luogu.read_config() #前提"/plugins/插件文件夹/config.json"文件存在，否则会报错
+    Luogu.read_config("config.json") #前提"/plugins/插件文件夹/config.json"文件存在，否则会报错
     Return:
     {"cookie": {"不告诉你"}}
     ```
@@ -596,11 +603,15 @@ config.json
 - Luogu.save_config(config)	写入配置文件
 
   - ```python
+    参数:
+    - config # 配置
+    - file_name # 配置文件名
+    
     Return None
     
     例子:
-    Luogu.save_config({"cookie": {"不告诉你"}})
-    "/plugins/插件文件夹/config.json" 内容:
+    Luogu.save_config({"cookie": {"不告诉你"}}, "config.json")
+    "/configs/插件文件夹/config.json" 内容:
     {"cookie": {"不告诉你"}}
     ```
 

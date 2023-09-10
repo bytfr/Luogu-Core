@@ -1,3 +1,4 @@
+import os
 import re
 import json
 import time
@@ -61,14 +62,19 @@ class Luogu:
             time.sleep(0.1)
         return contest_list
 
-    def read_config(self):
-        with open(self.plugin_path + "/config.json", "r") as f:
+    def read_config(self, file_name="config.json"):
+        with open(os.getcwd()+"/configs/{}/{}".format(self.plugin_information["Plugin Name"], file_name), "r") as f:
             config = json.loads(f.read())
             f.close()
         return config
 
-    def save_config(self, config: dict):
-        with open(self.plugin_path + "/config.json", "w") as f:
+    def save_config(self, config: dict, file_name="config.json"):
+        path = os.getcwd()+"/configs/{}/{}".format(self.plugin_information["Plugin Name"], file_name)
+        try:
+            os.makedirs(path)
+        except:
+            pass
+        with open(path, "w") as f:
             f.write(json.dumps(config))
             f.close()
 
